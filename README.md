@@ -121,7 +121,7 @@ Tracks:
 
 ## Analytics Dashboard
 
-![Analytics Dashboard](assets/screenshots/analytics-dashboard.png)
+![Analytics Dashboard](assets/screenshots/dashboard-analytics.png)
 
 ---
 
