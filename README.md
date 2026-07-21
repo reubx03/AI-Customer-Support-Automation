@@ -1,250 +1,258 @@
-# AI Customer Support Automation
+# 🤖 AI Customer Support Automation
 
-An AI-powered customer support automation workflow built with **n8n**, **OpenAI**, and **Gmail**.
+An AI-powered customer support automation system built using **n8n**, **OpenAI**, and **Retrieval-Augmented Generation (RAG)** to automate customer support workflows from email reception to AI-powered response generation.
 
-The system automatically receives customer emails, classifies customer intent using AI, routes requests to specialized AI support agents, retrieves relevant company knowledge using Retrieval-Augmented Generation (RAG), generates professional responses, formats them as HTML, and sends replies automatically.
-
-This project is designed as a production-style portfolio project demonstrating modern AI workflow automation for customer support.
+> **Portfolio Project** – Demonstrates AI Automation, Workflow Orchestration, Prompt Engineering, Retrieval-Augmented Generation (RAG), and CRM integration using a real-world customer support use case.
 
 ---
 
-## Overview
+# 📌 Project Overview
 
-Manual customer support is repetitive and time-consuming. This project demonstrates how AI can automate common customer support tasks while maintaining professional communication, intelligent routing, and accurate knowledge retrieval.
+Modern businesses receive hundreds of repetitive customer support emails every day. Responding manually is time-consuming and inconsistent.
 
-The workflow currently supports:
+This project automates the complete customer support workflow using Large Language Models (LLMs), workflow orchestration, and a Retrieval-Augmented Generation (RAG) knowledge base.
 
-- AI-powered issue classification
-- Intelligent workflow routing
-- Specialized AI support agents
-- Retrieval-Augmented Generation (RAG)
-- Company Knowledge Base search
-- OpenAI Embeddings
-- Simple Vector Store
-- AI Agent with conversation memory
-- Professional HTML email generation
-- Automated Gmail replies
+Instead of simply generating AI responses, the system:
 
-Future versions extend the system with CRM integration, ticket management, analytics, human escalation, and database lookups.
+- Receives customer emails automatically
+- Classifies customer issues using AI
+- Routes requests to specialized AI agents
+- Retrieves company policies using RAG
+- Generates professional responses
+- Creates support tickets
+- Logs customer interactions into a CRM
+- Escalates complex cases for human review
+- Tracks workflow analytics
 
----
-
-# Features
-
-## Version 1.0
-
-- Gmail Trigger
-- AI-generated customer support replies
-- HTML email formatting
-- Automatic Gmail replies
-- Production-ready workflow
+The entire automation is built visually using **n8n**, making it scalable, modular, and easy to maintain.
 
 ---
 
-## Version 1.1
+# 🚀 Features
 
-### AI Issue Classification
+### 📩 Email Automation
 
-Automatically classifies customer emails into:
+- Gmail Trigger for incoming customer emails
+- Automatic AI-generated replies
+- Professional email formatting
 
-- Refund
+### 🧠 AI Issue Classification
+
+Automatically identifies customer intent such as:
+
+- Refund Requests
+- Shipping Queries
 - Order Status
-- Cancellation
-- Damaged Product
-- General Inquiry
+- Cancellation Requests
+- Damaged Products
+- General Questions
 
-### Intelligent Routing
+### 🤖 Intelligent AI Routing
 
-Routes customer requests using an n8n Switch node to dedicated AI support agents.
+Routes requests to specialized AI agents based on issue category, ensuring each response follows appropriate business rules.
 
-### Specialized AI Support Agents
+### 📚 Retrieval-Augmented Generation (RAG)
 
-- Refund Support Specialist
-- Order Status Support Specialist
-- Cancellation Support Specialist
-- Damaged Product Support Specialist
-- General Support Specialist
+Uses a vector store knowledge base containing company policies.
 
-### Professional Email Generation
+Knowledge Base includes:
 
-- HTML email formatting
-- Professional customer support responses
-- Consistent email signatures
-- Company policy awareness
-- Privacy-focused responses
+- Shipping Policy
+- Refund Policy
+- Cancellation Policy
+- Damaged Product Policy
+- Frequently Asked Questions (FAQ)
 
----
+### 📝 CRM Logging
 
-## Version 1.2
+Automatically records:
 
-### Retrieval-Augmented Generation (RAG)
+- Customer Name
+- Customer Email
+- Ticket ID
+- Issue Category
+- Status
+- Timestamp
 
-Implemented a complete RAG pipeline allowing the AI to retrieve company knowledge before generating responses.
+### 🎫 Ticket Generation
 
-### Knowledge Base
+Automatically generates unique support ticket IDs for every customer request.
 
-- Company Knowledge Base
-- GitHub Knowledge Loader
-- Automatic Markdown Download
-- Centralized Company Policies
+### 👨‍💼 Human Escalation
 
-### Document Processing
+Flags complex or unsupported customer requests for manual review.
 
-- Default Data Loader
-- Recursive Character Text Splitter
-- Chunk-based document processing
+### 📊 Analytics Dashboard
 
-### AI Knowledge Retrieval
+Tracks:
 
-- OpenAI Embeddings
-- Simple Vector Store
-- AI Agent
-- Vector Store Question Answer Tool
-- Conversation Memory
-
-### Benefits
-
-- Reduces AI hallucinations
-- Answers based on company policies
-- Easily updateable knowledge base
-- Improved response accuracy
+- Total Tickets
+- Issue Categories
+- Workflow Statistics
+- Customer Requests
 
 ---
 
-# Workflow Architecture
+# 📷 Project Screenshots
 
-```text
+## Main Workflow
+
+![Main Workflow](assets/screenshots/main-workflow.png)
+
+---
+
+## Knowledge Base Loader
+
+![Knowledge Base Loader](assets/screenshots/knowledge-base-loader.png)
+
+---
+
+## AI Email Reply
+
+![AI Reply](assets/screenshots/ai-reply.png)
+
+---
+
+## CRM Logging
+
+![CRM Logging](assets/screenshots/crm-sheet.png)
+
+---
+
+## Analytics Dashboard
+
+![Analytics Dashboard](assets/screenshots/analytics-dashboard.png)
+
+---
+
+# 🏗️ System Architecture
+
+```
 Customer Email
-        │
-        ▼
+      │
+      ▼
  Gmail Trigger
-        │
-        ▼
- AI Issue Classifier
-        │
-        ▼
- Switch Routing
-        │
- ┌──────────────┬───────────────┬───────────────┬──────────────┐
- │              │               │               │              │
-Refund     Order Status   Cancellation   Damaged Product   General Inquiry
- │              │               │               │              │
- └──────────────┴───────────────┴───────────────┴──────────────┘
-                        │
-                        ▼
-              HTML Email Formatter
-                        │
-                        ▼
-                Gmail Send Reply
+      │
+      ▼
+ AI Issue Classification
+      │
+      ▼
+ Intelligent Routing
+      │
+      ▼
+  RAG Knowledge Base
+      │
+      ▼
+ AI Response Generation
+      │
+      ├────────► CRM Logging
+      │
+      ├────────► Ticket Generation
+      │
+      ├────────► Human Escalation
+      │
+      ▼
+ Customer Reply
 ```
 
-> **Version 1.2** extends the workflow with a Retrieval-Augmented Generation (RAG) pipeline that retrieves relevant company policies from a knowledge base before generating customer responses.
+---
+
+# 🛠️ Technology Stack
+
+| Category | Technologies |
+|----------|--------------|
+| Workflow Automation | n8n |
+| AI Model | OpenAI GPT |
+| Knowledge Retrieval | RAG + Vector Store |
+| Email Integration | Gmail |
+| CRM | Google Sheets |
+| Prompt Engineering | OpenAI |
+| Documentation | Markdown |
+| Version Control | Git & GitHub |
 
 ---
 
-# Technology Stack
+# 📁 Project Structure
 
-- n8n
-- OpenAI API
-- GPT-5 Mini
-- OpenAI Embeddings
-- Gmail API
-- HTML Email Formatting
-- AI Prompt Engineering
-- Retrieval-Augmented Generation (RAG)
-- Simple Vector Store
-- AI Agent
-- Workflow Automation
-
----
-
-# Project Structure
-
-```text
+```
 AI-Customer-Support-Automation/
 
-assets/
-documentation/
-knowledge-base/
-prompts/
-sample-emails/
-workflow/
-
-README.md
-LICENSE
-.gitignore
+├── assets/
+│   └── screenshots/
+│
+├── documentation/
+│
+├── knowledge-base/
+│   ├── cancellation-policy.md
+│   ├── damaged-product-policy.md
+│   ├── general-faq.md
+│   ├── refund-policy.md
+│   └── shipping-policy.md
+│
+├── workflow/
+│   └── main-workflow.json
+│
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-# Documentation
+# ⚙️ Workflow Overview
 
-Detailed documentation is available inside the `documentation/` directory.
-
-- Version 1.0 – AI Email Automation
-- Version 1.1 – AI Classification & Intelligent Routing
-- Version 1.2 – Retrieval-Augmented Generation (RAG)
+1. Customer sends an email.
+2. Gmail Trigger starts the workflow.
+3. AI classifies the customer's issue.
+4. Request is routed to the appropriate AI agent.
+5. Relevant company policies are retrieved using RAG.
+6. AI generates a professional response.
+7. A support ticket is created.
+8. Customer interaction is logged into the CRM.
+9. Complex requests are escalated to human support.
+10. Analytics dashboard is updated.
 
 ---
 
-# Roadmap
+# 📚 Documentation
 
-## ✅ Version 1.0
+Detailed documentation for each development milestone is available in the `documentation/` folder.
+
+Topics include:
 
 - AI Email Automation
-
-## ✅ Version 1.1
-
-- AI Issue Classification
-- Intelligent Routing
-- Specialized AI Support Agents
-
-## ✅ Version 1.2
-
-- Knowledge Base (RAG)
-- OpenAI Embeddings
-- Simple Vector Store
-- AI Agent
-- Company Policy Search
-- Conversation Memory
-
-## 🚀 Version 1.3
-
+- AI Classification & Routing
+- Retrieval-Augmented Generation (RAG)
 - CRM Logging
 - Ticket Generation
-- Confidence Scoring
 - Human Escalation
-- Analytics Dashboard
-
-## 🚀 Version 2.0
-
-- Mock Order Database Lookup
-- AI + Database Integration
-- Business Workflow Automation
+- Dashboard Analytics
+- System Architecture
+- Project Evolution
 
 ---
 
-# Skills Demonstrated
+# 🚀 Future Improvements
 
-- AI Workflow Automation
-- n8n Development
-- Prompt Engineering
-- Customer Support Automation
-- Intelligent Email Routing
-- Retrieval-Augmented Generation (RAG)
-- Vector Databases
-- Semantic Search
-- AI Agents
-- Business Process Automation
-- HTML Email Generation
-- Workflow Architecture
+- Multi-language customer support
+- Sentiment analysis
+- WhatsApp integration
+- Slack integration
+- Live chat support
+- Voice AI support
+- Admin dashboard
+- Customer authentication
+- Multi-agent AI workflows
 
 ---
 
-# Author
+# 👨‍💻 Author
 
 **Reuben Mathew Tharakan**
 
-AI & Data Science Graduate
+🎓 B.Tech in Artificial Intelligence & Data Science
 
-Portfolio project focused on AI Automation, Intelligent Workflow Design, Retrieval-Augmented Generation (RAG), AI Agents, and Business Process Automation.
+GitHub: https://github.com/reubx03
+
+---
+
+# ⭐ If you found this project interesting, consider giving it a star!

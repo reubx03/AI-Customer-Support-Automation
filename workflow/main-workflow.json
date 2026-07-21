@@ -1,0 +1,1897 @@
+{
+  "name": "AI Customer Support Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c298d247-6c76-4ab3-a662-7811d17700b3",
+              "name": "htmlEmail",
+              "value": "={{ $json.aiReply.replace(/\\n/g,\"<br>\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        -80
+      ],
+      "id": "cb658548-b3c9-4d6b-974c-2b44d227c7d0",
+      "name": " Format Email HTML"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"Receive Customer Email\"].json[\"from\"].value[0].address}}",
+        "subject": "=Re: {{$node[\"Receive Customer Email\"].json[\"subject\"]}}",
+        "message": "={{$node[\" Format Email HTML\"].json.htmlEmail}}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        -80
+      ],
+      "id": "4375eac4-d219-4966-af7a-fffd607347a6",
+      "name": " Send Reply",
+      "webhookId": "12a8efe2-93b7-42a1-9205-89f187347e35",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "u4EVD4lvtdZXrbdQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "REFUND",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "aff64314-b1d5-4148-aa33-a1328b6373b8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Refund"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a83e1c88-a87d-4729-83e4-2757bb3bfb95",
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "ORDER_STATUS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=Order Status"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "422b0d89-e1f0-4e21-9163-9a9d2dc7e0a7",
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "CANCELLATION",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cancellation"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f7fc5b4e-6086-4300-ab7c-476648eafeb5",
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "DAMAGED_PRODUCT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Damaged Output"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "464a674e-6315-497c-8285-eaf736defe38",
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "WRONG_ITEM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Wrong Item"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c096ebe2-0176-4ae3-aa53-7e4d85a46076",
+                    "leftValue": "={{ $json.output[0].content[0].text }}",
+                    "rightValue": "GENERAL_INQUIRY",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "General Inquiry"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -640,
+        -64
+      ],
+      "id": "e2981e4e-fb3f-4d81-81de-1819835c355c",
+      "name": "Route Customer Issue"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are NovaCart's Refund Support Specialist.\n\nYour task is to write a professional customer support email.\n\nRules:\n- Be polite and empathetic.\n- Never claim you checked an order.\n- Never invent refund eligibility.\n- Never promise a refund.\n- Ask only for the information needed.\n- Keep replies under 180 words.\n- Use short paragraphs.\n- End with:\n\nKind regards,\n\nNovaCart Customer Support"
+            },
+            {
+              "content": "=Customer Email\n\nSubject:{{ $('Receive Customer Email').item.json.subject }}\n\nBody:\n{{ $('Receive Customer Email').item.json.text }}\n\nThe customer's issue has already been classified as REFUND.\n\nWrite an appropriate customer support reply following NovaCart policies."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -560
+      ],
+      "id": "09af27e7-c222-4863-b844-3fec94b89f66",
+      "name": "Generate Refund Reply",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are NovaCart's Order Status Support Specialist.\n\nYour task is to write a professional customer support email.\n\nRules:\n- Be polite and empathetic.\n- Never claim you checked an order.\n- Never invent tracking information.\n- Never promise a delivery date.\n- Never say an order is shipped or delayed unless the customer provides official information.\n- Ask only for the information needed.\n- Keep replies under 180 words.\n- Use short paragraphs.\n- End with:\n\nKind regards,\n\nNovaCart Customer Support"
+            },
+            {
+              "content": "=Customer Email\n\nSubject:{{ $('Receive Customer Email').item.json.subject }}\n\n\nBody:{{ $('Receive Customer Email').item.json.text }}\n\n\nThe customer's issue has already been classified as ORDER_STATUS.\n\nWrite an appropriate customer support reply following NovaCart policies."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -368
+      ],
+      "id": "e67a8187-4473-4381-961e-a6f896537cd9",
+      "name": "Generate Order Status Reply",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are NovaCart's Order Cancellation Support Specialist.\n\nYour job is to write professional customer support emails.\n\nRules:\n\n- Be polite and empathetic.\n- Do not promise cancellation until it is verified.\n- Explain that cancellation depends on whether the order has already been shipped.\n- Ask for the order number if it is missing.\n- If needed, ask the customer to confirm they want to cancel the entire order.\n- Never invent order information.\n- Never mention AI.\n- Keep replies under 180 words.\n- End with:\n\nKind regards,\n\nNovaCart Customer Support"
+            },
+            {
+              "content": "=Customer Email\n\nSubject:\n{{ $('Receive Customer Email').item.json.subject }}\n\nBody:\n{{ $('Receive Customer Email').item.json.text }}\n\n\nThe customer's issue has already been classified as CANCELLATION.\n\nWrite an appropriate customer support reply following NovaCart policies."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -176
+      ],
+      "id": "3ff20790-ad4e-42a9-be74-8ab3ef138606",
+      "name": "Generate Cancellation Reply",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are NovaCart's Damaged Product Support Specialist.\n\nYour job is to write professional customer support emails.\n\nRules:\n\n- Be polite and empathetic.\n- Apologize that the customer received a damaged item.\n- Ask for the order number if missing.\n- Ask for clear photos of the damaged product.\n- Ask for photos of the packaging if available.\n- Do not promise a refund or replacement until the damage is verified.\n- Never invent order details.\n- Never mention AI.\n- Keep replies under 180 words.\n\nEnd with:\n\nKind regards,\n\nNovaCart Customer Support"
+            },
+            {
+              "content": "=Customer Email\n\nSubject:{{ $('Receive Customer Email').item.json.subject }}\n\nBody:{{ $('Receive Customer Email').item.json.text }}\n\n\nThe customer's issue has already been classified as DAMAGED_PRODUCT.\n\nWrite an appropriate customer support reply following NovaCart policies."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        16
+      ],
+      "id": "a96434f4-04d1-4086-b1db-a25d9bc1f135",
+      "name": "Generate Damaged Product Reply",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are NovaCart's Wrong Item Support Specialist.\n\nYour job is to write professional customer support emails.\n\nRules:\n\n- Be polite and empathetic.\n- Apologize that the customer received the wrong item.\n- Ask for the order number if missing.\n- Ask for a clear photo of the item received.\n- Ask for a photo of the shipping label or packaging if available.\n- Explain that the order will be reviewed before arranging a replacement or return.\n- Never promise a replacement before verification.\n- Never invent order information.\n- Never mention AI.\n- Keep replies under 180 words.\n\nEnd with:\n\nKind regards,\n\nNovaCart Customer Support"
+            },
+            {
+              "content": "=Customer Email\n\nSubject:\n{{ $('Receive Customer Email').item.json.subject }}\n\nBody:\n{{ $('Receive Customer Email').item.json.text }}\n\nThe customer's issue has already been classified as WRONG_ITEM.\n\nWrite an appropriate customer support reply following NovaCart policies."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        208
+      ],
+      "id": "7aa35bd8-c52a-48d7-8397-b8a303eb09f5",
+      "name": "Generate Wrong Item Reply",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/reubx03/AI-Customer-Support-Automation/contents/knowledge-base",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2160,
+        320
+      ],
+      "id": "df4c7ee1-1d56-496b-afd2-c281b6f975a8",
+      "name": "Load Knowledge Base"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.download_url}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1936,
+        320
+      ],
+      "id": "cb904da4-3bd9-48dd-936b-4889966b9ac2",
+      "name": "Download Knowledge File"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -1680,
+        320
+      ],
+      "id": "437fc3e2-8209-40f4-8705-5dd07f493c8a",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1776,
+        576
+      ],
+      "id": "c475eb3f-229c-4fd5-93b0-e22d0260fb1c",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "id": "e5276a99-b2d3-4bb5-b6ad-00cdba684f95",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -1616,
+        656
+      ]
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "id": "d141f3d0-56c4-4af1-860d-534bfa0331ad",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        832
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Receive Customer Email').item.json.text }}",
+        "options": {
+          "systemMessage": "You are a helpful NovaCart customer support assistant. Use the knowledge base tool to answer questions accurately. Be polite and professional."
+        }
+      },
+      "id": "e568fc79-ee5a-41f1-ac8e-e4ba3587a9e7",
+      "name": "Answer Questions",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1152,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "43d95e6e-a8af-4bdb-89d0-5cf163f748b9",
+      "name": "OpenAI Chat Model (Agent)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1248,
+        496
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "support_session"
+      },
+      "id": "907864a5-81f2-412b-8ffb-8975545639a5",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -1104,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "E-commerce customer support knowledge base including shipping, returns, refunds, cancellations, order tracking, payment issues, and company policies.",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "id": "d59bb01f-6871-4b55-849e-a2f08433f0bd",
+      "name": "Vector Store QA Tool",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -944,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M",
+          "mode": "list",
+          "cachedResultName": "AI Customer Support CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Customer_Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.toFormat('dd-MM-yyyy HH:mm:ss') }}",
+            "Ticket ID": "={{ $('Generate Ticket ID').item.json.ticketId }}",
+            "Customer Email": "={{ $('Receive Customer Email').item.json.from.value[0].address }}",
+            "Customer Name": "={{ $('Receive Customer Email').item.json.from.value[0].name }}",
+            "Subject": "={{ $('Receive Customer Email').item.json.subject }}",
+            "AI Reply": "={{ $json.aiReply }}",
+            "Escalated": "={{ $json.escalated }}",
+            "AI Confidence": "N/A",
+            "Issue Category": "={{ $('AI Issue Classifier').item.json.output[0].content[0].text }}",
+            "Priority": "={{ $json.priority }}",
+            "Status": "={{ $json.status }}",
+            "Assigned To": "={{ $json.assignedTo }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ticket ID",
+              "displayName": "Ticket ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Email",
+              "displayName": "Customer Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Issue Category",
+              "displayName": "Issue Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "AI Confidence",
+              "displayName": "AI Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AI Reply",
+              "displayName": "AI Reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Escalated",
+              "displayName": "Escalated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assigned To",
+              "displayName": "Assigned To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        -80
+      ],
+      "id": "4ba3755b-b72b-4546-9641-413569b80916",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xjchIaJ5MZTxShqm",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe6ec8cb-70ee-459b-880f-f6ed4ebd604f",
+              "name": "ticketId",
+              "value": "={{ \"TKT-\" + $now.toFormat(\"yyyyMMddHHmmss\") }}",
+              "type": "string"
+            },
+            {
+              "id": "74906b21-3c43-48ef-b435-fca83bae3d1f",
+              "name": "assignedTo",
+              "value": "={{\n({\n  REFUND: \"Refund Team\",\n  ORDER_STATUS: \"Logistics Team\",\n  CANCELLATION: \"Order Management Team\",\n  DAMAGED_PRODUCT: \"Returns Team\",\n  WRONG_ITEM: \"Returns Team\",\n  GENERAL_INQUIRY: \"Customer Support Team\"\n})[$json.issueCategory] || \"Customer Support Team\"\n}}",
+              "type": "string"
+            },
+            {
+              "id": "3f7fe41e-6014-4791-aa6b-3e905fe86479",
+              "name": "issueCategory",
+              "value": "={{ $('AI Issue Classifier').item.json.output[0].content[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "e0b608c0-d628-4c91-95e3-95ea605ae3ab",
+              "name": "priority",
+              "value": "Medium",
+              "type": "string"
+            },
+            {
+              "id": "9ebc4934-2d0d-4098-92e6-6231d7c15de8",
+              "name": "status",
+              "value": "Open",
+              "type": "string"
+            },
+            {
+              "id": "c1661f4e-5182-472b-a528-42165b16c4c8",
+              "name": "escalated",
+              "value": "No",
+              "type": "string"
+            },
+            {
+              "id": "adf46de9-89fe-4a45-98c2-bc3e8b6d5afa",
+              "name": "htmlEmail",
+              "value": "={{ $json.htmlEmail }}",
+              "type": "string"
+            },
+            {
+              "id": "ffd80351-8be0-4666-8131-3518e131ac4c",
+              "name": "aiReply",
+              "value": "={{ $json.htmlEmail }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        656,
+        -80
+      ],
+      "id": "9456a3fd-1da2-4290-a740-b595745e4682",
+      "name": "Generate Ticket ID"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI Issue Classification Engine for NovaCart.\n\nYour only task is to identify the PRIMARY customer support issue from the customer's email.\n\nDo NOT answer the customer.\nDo NOT explain your reasoning.\nDo NOT generate an email.\n\nReturn ONLY one of the following categories exactly as written:\n\nORDER_STATUS\nREFUND\nCANCELLATION\nDAMAGED_PRODUCT\nWRONG_ITEM\nGENERAL_INQUIRY\nFALLBACK\n\nClassification Rules\n\nORDER_STATUS\nCustomer is asking about:\n- Where is my order?\n- Package delayed\n- Shipment delayed\n- Delivery status\n- Tracking request\n- Late delivery\n- Missing package\n\nREFUND\nCustomer wants:\n- Refund\n- Return for money back\n- Money back\n- Cancel after delivery for refund\n\nCANCELLATION\nCustomer wants to:\n- Cancel an order\n- Stop shipment\n- Cancel before delivery\n\nDAMAGED_PRODUCT\nCustomer received:\n- Broken product\n- Defective product\n- Product not working\n- Damaged packaging\n- Missing parts\n\nWRONG_ITEM\nCustomer received:\n- Wrong product\n- Wrong size\n- Wrong color\n- Wrong quantity\n- Different item than ordered\n\nGENERAL_INQUIRY\nUse this for normal questions about:\n- Products\n- Store policies\n- Shipping information\n- Account help\n- Payment methods\n- Availability\n- Promotions\n- Other standard customer support questions\n\nFALLBACK\nUse this ONLY if:\n- The request does not belong to any of the categories above.\n- The email is unrelated to customer support.\n- The intent is unclear or cannot be confidently classified.\n- The request requires manual human review before categorization.\n\nIf multiple issues are mentioned, classify based on the customer's MAIN request.\n\nOutput exactly one category.\n"
+            },
+            {
+              "content": "=Classify the customer's primary support issue.\n\nCustomer Email\n\nSubject:{{ $('Receive Customer Email').item.json.headers.subject }}\n\n\nBody:\n{{ $json.customer_question }}\n\nReturn only one category."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -992,
+        16
+      ],
+      "id": "ac755f10-6974-4380-b1b2-8e03f2481b89",
+      "name": "AI Issue Classifier",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2be87195-7a77-4aa4-93cd-87380dfcb43a",
+              "name": "aiReply",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -560
+      ],
+      "id": "6e973822-b456-4050-ae3e-80c3e4e56438",
+      "name": "Set Refund Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7b8c1a02-2c8f-4282-994c-8974e72c2787",
+              "name": "aiReply",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -368
+      ],
+      "id": "d4d1d770-9889-4f43-a0c7-6e17e5bf44a8",
+      "name": "Set Order Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8501c808-d79f-4b81-9104-003ae73f7320",
+              "name": "aiReply",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -176
+      ],
+      "id": "22e3be57-932f-4c62-a49d-776e4144a653",
+      "name": "Set Cancellation Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e5d7f8b8-82ac-471a-9245-070f74a3535d",
+              "name": "aiReply",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        16
+      ],
+      "id": "3d2236fb-cd36-4ed3-8e61-25c0d29245db",
+      "name": "Set Damaged Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8454d9a4-1693-4c83-bdf2-9df15caa30b3",
+              "name": "aiReply",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        208
+      ],
+      "id": "1cb01f70-7811-47fc-b9be-bcd368c0dc0c",
+      "name": "Set Wrong Item Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6adbd0cf-fcea-4221-af62-46c71840aa9b",
+              "name": "aiReply",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        608
+      ],
+      "id": "c6ca3b6a-e1b0-4590-994d-0fb9ae0b6ddf",
+      "name": "Set General Reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe6ec8cb-70ee-459b-880f-f6ed4ebd604f",
+              "name": "ticketId",
+              "value": "={{ \"TKT-\" + $now.toFormat(\"yyyyMMddHHmmss\") }}",
+              "type": "string"
+            },
+            {
+              "id": "74906b21-3c43-48ef-b435-fca83bae3d1f",
+              "name": "assignedTo",
+              "value": "Human Support Team",
+              "type": "string"
+            },
+            {
+              "id": "3f7fe41e-6014-4791-aa6b-3e905fe86479",
+              "name": "issueCategory",
+              "value": "HUMAN_ESCALATION",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        912
+      ],
+      "id": "4c0e1c88-66cd-4b5a-87c8-3dbdee17ac67",
+      "name": "Generate Human Ticket ID"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M",
+          "mode": "list",
+          "cachedResultName": "AI Customer Support CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Customer_Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11jr-gBHCSEfCAgXBhOsS7h7z-ak9RKdfzdkZb8kJA2M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.toFormat('dd-MM-yyyy HH:mm:ss') }}",
+            "Ticket ID": "={{ $json.ticketId }}",
+            "Customer Email": "={{ $('Receive Customer Email').item.json.from.value[0].address }}",
+            "Customer Name": "={{ $('Receive Customer Email').item.json.from.value[0].name }}",
+            "Subject": "={{ $('Receive Customer Email').item.json.subject }}",
+            "AI Reply": "={{ $json.AIReply }}",
+            "AI Confidence": "N/A",
+            "Priority": "={{ $json.Priority }}",
+            "Escalated": "={{ $json.Escalated }}",
+            "Assigned To": "={{ $json.assignedTo }}",
+            "Status": "={{ $json.Status }}",
+            "Issue Category": "={{ $json.issueCategory }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ticket ID",
+              "displayName": "Ticket ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Email",
+              "displayName": "Customer Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Issue Category",
+              "displayName": "Issue Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "AI Confidence",
+              "displayName": "AI Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AI Reply",
+              "displayName": "AI Reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Escalated",
+              "displayName": "Escalated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assigned To",
+              "displayName": "Assigned To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        912
+      ],
+      "id": "ecda152e-8b51-4f13-ad0c-9c910a038ac5",
+      "name": "Append Human Ticket",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xjchIaJ5MZTxShqm",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"Receive Customer Email\"].json[\"from\"].value[0].address}}",
+        "subject": "=[NovaCart] Support Ticket Received - {{ $json['Ticket ID'] }}",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p>\n\n<p>Thank you for contacting <strong>NovaCart Support</strong>.</p>\n\n<p>Your request requires manual review by one of our support specialists.</p>\n\n<p><strong>Ticket ID:</strong> {{ $json['Ticket ID'] }}</p>\n\n<p>Our team will review your request and get back to you as soon as possible.</p>\n\n<p>Thank you for your patience.</p>\n\n<p>Kind regards,<br>\nNovaCart Customer Support</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        544
+      ],
+      "id": "6547b36f-97aa-4b73-b966-59402f488a64",
+      "name": "Send Escalation Acknowledgement",
+      "webhookId": "12a8efe2-93b7-42a1-9205-89f187347e35",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "u4EVD4lvtdZXrbdQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "43d83292-f4ce-49f8-8d6b-ff6d3664aef0",
+              "name": "Escalated",
+              "value": "Yes",
+              "type": "string"
+            },
+            {
+              "id": "a863632b-ce13-4ad3-abb5-6c4f0a38d34b",
+              "name": "AssignedTeam",
+              "value": "Human Support Team",
+              "type": "string"
+            },
+            {
+              "id": "4f86c3ab-7608-43b4-8c1c-dfe98748d6d1",
+              "name": "Status",
+              "value": "Waiting for Human",
+              "type": "string"
+            },
+            {
+              "id": "2be96af6-a12e-44d2-8dff-7fe9fbb07224",
+              "name": "AIReply",
+              "value": "Escalated to human support",
+              "type": "string"
+            },
+            {
+              "id": "2fd2e68a-23df-4d8b-ad1f-b3448d6fbdf2",
+              "name": "Priority",
+              "value": "High",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -544,
+        848
+      ],
+      "id": "6acf5a7c-554c-4fe8-b366-d974a2433d11",
+      "name": "Prepare Human Escalation"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d9d54853-480a-46e9-9374-f035fa36a373",
+              "name": "customer_question",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1232,
+        16
+      ],
+      "id": "8e685acf-5aaa-4f0a-9283-0f3f9e52a16d",
+      "name": "Preserve Email"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1456,
+        16
+      ],
+      "id": "c8525e69-e873-4f9b-a4e2-c841cd90c2af",
+      "name": "Receive Customer Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "u4EVD4lvtdZXrbdQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Receive Customer Email').first().json.text }}",
+        "options": {
+          "systemMessage": "You are a helpful NovaCart customer support assistant. Use the knowledge base tool to answer questions accurately. Be polite and professional."
+        }
+      },
+      "id": "7cc9c9f1-fa92-4af7-8373-aea3e48518d6",
+      "name": "AI Knowledge Assistant (RAG)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -352,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "E-commerce customer support knowledge base including shipping, returns, refunds, cancellations, order tracking, payment issues, and company policies.",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "id": "2a0499af-19b1-481a-908b-9d0170312128",
+      "name": "Knowledge Base Retriever",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "0246e9fc-e75c-4836-9bb5-426de6969ccd",
+      "name": "RAG Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -416,
+        624
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "support_session"
+      },
+      "id": "cc09c835-8d1e-450b-9791-9863cb1822d0",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -288,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        768
+      ],
+      "id": "73dcc387-9b0a-42a0-9a7f-b3a4cdeaefca",
+      "name": "Knowledge Base Embeddings",
+      "credentials": {
+        "openAiApi": {
+          "id": "M34L7rY8stavVdMS",
+          "name": "OpenAI Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## AI Customer Support Automation\n\n• AI Email Classification\n• Intelligent Routing\n• RAG Knowledge Base\n• Ticket Generation\n• CRM Logging\n• Human Escalation",
+        "height": 272,
+        "width": 448,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1424,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "1d0dbf71-77f3-4b44-a4b7-21d17a7a15f2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Knowledge Base Loader\n\nRun this workflow whenever the GitHub knowledge base is updated.",
+        "height": 176,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2160,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "7fc56b96-c2e1-4106-8c7d-1cb65d53ace7",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    " Format Email HTML": {
+      "main": [
+        [
+          {
+            "node": "Generate Ticket ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Customer Issue": {
+      "main": [
+        [
+          {
+            "node": "Generate Refund Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Order Status Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Cancellation Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Damaged Product Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Wrong Item Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Knowledge Assistant (RAG)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Human Escalation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Refund Reply": {
+      "main": [
+        [
+          {
+            "node": "Set Refund Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Order Status Reply": {
+      "main": [
+        [
+          {
+            "node": "Set Order Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Cancellation Reply": {
+      "main": [
+        [
+          {
+            "node": "Set Cancellation Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Damaged Product Reply": {
+      "main": [
+        [
+          {
+            "node": "Set Damaged Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Wrong Item Reply": {
+      "main": [
+        [
+          {
+            "node": "Set Wrong Item Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Knowledge Base": {
+      "main": [
+        [
+          {
+            "node": "Download Knowledge File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Vector Store QA Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Knowledge File": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Answer Questions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model (Agent)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer Questions",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Answer Questions",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store QA Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Answer Questions",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": " Send Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Ticket ID": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Issue Classifier": {
+      "main": [
+        [
+          {
+            "node": "Route Customer Issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set General Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Refund Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Order Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Cancellation Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Damaged Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Wrong Item Reply": {
+      "main": [
+        [
+          {
+            "node": " Format Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Human Ticket ID": {
+      "main": [
+        [
+          {
+            "node": "Append Human Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Human Ticket": {
+      "main": [
+        [
+          {
+            "node": "Send Escalation Acknowledgement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Human Escalation": {
+      "main": [
+        [
+          {
+            "node": "Generate Human Ticket ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preserve Email": {
+      "main": [
+        [
+          {
+            "node": "AI Issue Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Customer Email": {
+      "main": [
+        [
+          {
+            "node": "Preserve Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Knowledge Assistant (RAG)": {
+      "main": [
+        [
+          {
+            "node": "Set General Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge Base Retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Knowledge Assistant (RAG)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Knowledge Assistant (RAG)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Knowledge Assistant (RAG)",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge Base Embeddings": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Knowledge Base Retriever",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "abc72fcd-e1c2-432d-a33a-271ca4c4cc8a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a1b32c35f0defff194ee8646aa1e3d832adaa28cf4232cf90a80eda79e1c5ef"
+  },
+  "nodeGroups": [],
+  "id": "dBBuQ3tBqy4B5fpr",
+  "tags": []
+}
